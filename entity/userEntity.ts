@@ -59,7 +59,7 @@ userSchema.static(
         throw Error("username or password incorrect");
       }
 
-      return user;
+      return user as IUser;
     } catch (err: any) {
       console.error(err.message);
       throw Error(err.message);

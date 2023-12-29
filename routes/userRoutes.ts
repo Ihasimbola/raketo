@@ -1,5 +1,6 @@
 import express from "express";
 import { UserController } from "../controllers/userController";
+import { verifyToken } from "../utils/jwt";
 
 const router = express.Router();
 

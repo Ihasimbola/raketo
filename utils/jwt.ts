@@ -2,10 +2,16 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { IUser } from "../types/types";
 import { NextFunction, Request, Response } from "express";
 
+type UserType = {
+  userId: string;
+  username: string;
+  email: string;
+};
+
 const accessTokenSecret = "Raketo-app-ATS";
 const refreshTokenSecret = "Raketo-app-RTS";
 
-const generateAccessToken = (user: IUser) => {
+const generateAccessToken = (user: UserType) => {
   return new Promise<string | undefined>((resolve, reject) => {
     const token = jwt.sign(
       user,
@@ -21,7 +27,7 @@ const generateAccessToken = (user: IUser) => {
   });
 };
 
-const generateRefreshToken = (user: IUser) => {
+const generateRefreshToken = (user: UserType) => {
   return new Promise<string | undefined>((resolve, reject) => {
     const refreshToken = jwt.sign(
       user,
@@ -52,3 +58,5 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   });
 };
+
+export { generateAccessToken, generateRefreshToken, verifyToken };

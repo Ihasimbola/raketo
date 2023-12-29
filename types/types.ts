@@ -1,4 +1,5 @@
 export interface IUser {
+  id?: string;
   username: string;
   password: string;
   email: string;
@@ -7,7 +8,7 @@ export interface IUser {
 export interface ICatergory {
   name: string;
   tecnos: Array<string>;
-  total_spent_time: string
+  total_spent_time: string;
 }
 
 export interface ITecno {
