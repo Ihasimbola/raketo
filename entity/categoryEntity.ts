@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
 import { ICatergory } from "../types/types";
 
-const categorySchema = new mongoose.Schema<ICatergory>({
-  name: {
-    type: String,
-    required: true,
+const categorySchema = new mongoose.Schema<ICatergory>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
   },
-  tecnos: [ mongoose.Schema.Types.ObjectId ],
-  total_spent_time: {
-    type: String,
-    default: "0"
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-})
+);
 
-export default mongoose.model('Category', categorySchema);
+export default mongoose.model("Category", categorySchema);

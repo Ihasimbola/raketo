@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export interface IUser {
   id?: string;
   username: string;
@@ -7,8 +9,7 @@ export interface IUser {
 
 export interface ICatergory {
   name: string;
-  tecnos: Array<string>;
-  total_spent_time: string;
+  userId: mongoose.Schema.Types.ObjectId;
 }
 
 export interface ITecno {

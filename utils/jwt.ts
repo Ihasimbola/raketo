@@ -44,12 +44,12 @@ const generateRefreshToken = (user: UserType) => {
 };
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.header("Authorization");
+  const token = req.header("Authorization")?.split(" ")[1];
   if (!token) {
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, accessTokenSecret, (err, decoded: any) => {
+  jwt.verify(token, accessTokenSecret, (err: any, decoded: any) => {
     if (err) {
       return res.sendStatus(403);
     }
