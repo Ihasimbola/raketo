@@ -3,7 +3,7 @@ import { ITopic } from "../types/types";
 
 const topicSchema = new mongoose.Schema<ITopic>(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -11,7 +11,19 @@ const topicSchema = new mongoose.Schema<ITopic>(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     tecno: mongoose.Schema.Types.ObjectId,
+    spent_time: {
+      type: Object,
+    },
+    isDone: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,

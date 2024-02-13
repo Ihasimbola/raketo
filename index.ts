@@ -1,16 +1,21 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import express, { Request, Response } from "express";
-import Users from "./entity/userEntity";
+import express, { NextFunction, Request, Response } from "express";
 import { router as routes } from "./routes";
+import cors from "cors";
+import { verifyToken } from "./utils/jwt";
 import multer from "multer";
-import { upload } from "./utils/multer";
 
 const PORT = process.env.PORT || "4400";
 const DB_URL: string = process.env.DB_URL || "";
 const app = express();
-// const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "uploads/" });
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.set("PORT", PORT);
 app.use(express.json());
 
@@ -31,25 +36,38 @@ if (DB_URL) {
 
 app.use("/api", routes);
 
-app.post(
-  "/icon",
-  upload("/icon", "icon"),
-  function (req: Request, res: Response) {
-    console.log(req.file);
-    console.log(req.body.name);
-    res.json({ message: "received" });
-  }
-);
+// app.post(
+//   "/test",
+//   function (req: Request, res: Response, next: NextFunction) {
+//     console.log("first middleware");
+//     if (req.body.data == "next") next();
+//     return res.status(200).json({ message: "first middleware return" });
+//   },
+//   function (req: Request, res: Response) {
+//     console.log("second middleware");
+//     return res.status(200).json({ message: "second middleware return" });
+//   }
+// );
 
-app.post(
-  "/photo",
-  upload("/photo", "photo"),
-  function (req: Request, res: Response) {
-    console.log(req.file);
-    console.log(req.body.name);
-    res.json({ message: "received" });
-  }
-);
+// app.post(
+//   "/icon",
+//   upload("/icon", "icon"),
+//   function (req: Request, res: Response) {
+//     console.log(req.file);
+//     console.log(req.body.name);
+//     res.json({ message: "received" });
+//   }
+// );
+
+// app.post(
+//   "/photo",
+//   upload("/photo", "photo"),
+//   function (req: Request, res: Response) {
+//     console.log(req.file);
+//     console.log(req.body.name);
+//     res.json({ message: "received" });
+//   }
+// );
 
 app.listen(app.get("PORT"), () =>
   console.log("The server is listening at port ", app.get("PORT"))

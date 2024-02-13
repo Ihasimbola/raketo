@@ -7,6 +7,10 @@ const tecnoSchema = new mongoose.Schema<ITecno>(
       type: String,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     category: mongoose.Schema.Types.ObjectId,
     icon: {
       type: String,

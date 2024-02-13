@@ -52,16 +52,16 @@ userSchema.static(
     try {
       const user: any = await Users.findOne({ username: username });
       if (!user) {
-        throw Error("User does not exist");
+        throw Error("Mila mamorona kaonty.");
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        throw Error("username or password incorrect");
+        throw Error("Misy diso fa avereno.");
       }
 
       return user as IUser;
     } catch (err: any) {
-      console.error(err.message);
+      // console.error(err.message);
       throw Error(err.message);
     }
   }

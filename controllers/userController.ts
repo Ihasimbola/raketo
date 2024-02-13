@@ -30,6 +30,7 @@ export class UserController {
   }
 
   static async login(req: Request, res: Response, next: NextFunction) {
+    console.log(req.body);
     try {
       const user = await Users.authenticateUser(
         req.body.username,

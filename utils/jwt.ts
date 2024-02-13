@@ -17,7 +17,8 @@ const generateAccessToken = (user: UserType) => {
       user,
       accessTokenSecret,
       {
-        expiresIn: 3600 * 6,
+        expiresIn: 10,
+        // expiresIn: 60 * 6,
       },
       function (err, encoded) {
         if (err) reject("Error signing token " + err);
@@ -34,6 +35,7 @@ const generateRefreshToken = (user: UserType) => {
       refreshTokenSecret,
       {
         expiresIn: "7d",
+        // expiresIn: 10,
       },
       function (err, encoded) {
         if (err) reject("Error generating refresh token " + err);
@@ -43,8 +45,9 @@ const generateRefreshToken = (user: UserType) => {
   });
 };
 
-const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header("Authorization")?.split(" ")[1];
+
   if (!token) {
     return res.sendStatus(401);
   }
@@ -59,4 +62,40 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export { generateAccessToken, generateRefreshToken, verifyToken };
+const verifyRefresh = (req: Request, res: Response, next: NextFunction) => {
+  // const refreshToken = req.header("Authorization")?.split(" ")[1];
+  const refreshToken = req.body.refreshToken;
+  if (!refreshToken) {
+    return res.status(400).json({
+      message: "You need to provide the refresh token.",
+    });
+  }
+
+  jwt.verify(
+    refreshToken,
+    refreshTokenSecret,
+    async (err: any, decoded: any) => {
+      if (err) {
+        return res.status(401).json({
+          message: "You need to log, the refresh token is no longer valid.",
+        });
+      }
+      // console.log(decoded);
+      const newToken = await generateAccessToken({
+        userId: decoded.userId,
+        username: decoded.username,
+        email: decoded.email,
+      });
+      return res.status(200).json({
+        token: newToken,
+      });
+    }
+  );
+};
+
+export {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyToken,
+  verifyRefresh,
+};
