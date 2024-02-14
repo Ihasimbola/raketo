@@ -10,6 +10,7 @@ export interface IUser {
 export interface ICatergory {
   name: string;
   userId: mongoose.Schema.Types.ObjectId;
+  count?: number;
 }
 
 export interface ITecno {
@@ -19,6 +20,7 @@ export interface ITecno {
   icon: string;
   total_spent_time: string;
   category: string;
+  count?: number;
 }
 
 interface Spent_TimeType {
@@ -35,4 +37,5 @@ export interface ITopic {
   spent_time: Object;
   tecno: string;
   isDone: boolean;
+  count?: number;
 }

@@ -1,5 +1,6 @@
 import Category from "../entity/categoryEntity";
 import { NextFunction, Request, Response } from "express";
+import Tecno from "../entity/tecnoEntity";
 
 export async function createCategory(
   req: Request,
@@ -38,7 +39,31 @@ export async function getCategories(
   try {
     const categories = await Category.find({
       userId: req.body.userId,
+    }).lean();
+
+    const tecnos = new Promise((resolve, rej) => {
+      const tecnos = {} as any;
+      for (let i = 0; i < categories.length; ++i) {
+        tecnos[categories[i].name] = Tecno.find({
+          userId: req.body.userId,
+          category: categories[i]._id,
+        });
+      }
+      resolve(tecnos);
     });
+
+    console.log(await tecnos);
+
+    const categoriesCount: any = {};
+
+    for (let i = 0; i < categories.length; ++i) {
+      const count = await Tecno.countDocuments({
+        userId: req.body.userId,
+        category: categories[i]._id,
+      });
+      categoriesCount[categories[i].name] = count;
+      categories[i].count = count;
+    }
     return res.status(200).json({
       data: categories,
     });
