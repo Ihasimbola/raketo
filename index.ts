@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import express, { NextFunction, Request, Response } from "express";
 import { router as routes } from "./routes";
 import cors from "cors";
-import { verifyToken } from "./utils/jwt";
 import multer from "multer";
 
 const PORT = process.env.PORT || "4400";
@@ -24,7 +23,7 @@ let db = null;
 if (DB_URL) {
   db = mongoose
     .connect(DB_URL, {
-      dbName: "raketo",
+      dbName: "pokemon",
     })
     .then(async () => {
       console.log("Connected to DB");

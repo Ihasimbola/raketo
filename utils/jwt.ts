@@ -17,7 +17,7 @@ const generateAccessToken = (user: UserType) => {
       user,
       accessTokenSecret,
       {
-        expiresIn: 10,
+        expiresIn: "30d",
         // expiresIn: 60 * 6,
       },
       function (err, encoded) {

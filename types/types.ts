@@ -5,6 +5,7 @@ export interface IUser {
   username: string;
   password: string;
   email: string;
+  cachedPokemon?: Array<string>;
 }
 
 export interface ICatergory {
@@ -23,7 +24,7 @@ export interface ITecno {
   count?: number;
 }
 
-interface Spent_TimeType {
+export interface Spent_TimeType {
   day: number;
   hour: number;
   minute: number;

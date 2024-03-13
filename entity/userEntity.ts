@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { IUser } from "../types/types";
 import validator from "validator";
 import bcrypt from "bcrypt";
@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema<IUser, UserModel>(
           throw Error("Email is invalid format");
         }
       },
+    },
+    cachedPokemon: {
+      type: Array<string>,
+      default: [],
     },
   },
   {
@@ -66,19 +70,6 @@ userSchema.static(
     }
   }
 );
-
-// userSchema.static('authenticateUser', async function(userId: string, password: string) {
-//   const user = await Users.findById(userId);
-//   if(!user) {
-//     throw new Error('Unable to login');
-//   }
-//   const isMatch  = await bcrypt.compare(password, user.password);
-//   if(!isMatch) {
-//     throw new Error('Unable to login');
-//   }
-
-//   return user;
-// })
 
 const Users = mongoose.model<IUser, UserModel>("Users", userSchema);
 export default Users;
