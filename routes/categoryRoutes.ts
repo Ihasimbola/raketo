@@ -2,6 +2,8 @@ import express from "express";
 import {
   createCategory,
   getCategories,
+  getTotalSpentTime,
+  totalSpentTime,
 } from "../controllers/categoryController";
 import { verifyToken } from "../utils/jwt";
 
@@ -9,5 +11,7 @@ const router = express.Router();
 
 router.post("/", [verifyToken, createCategory]);
 router.get("/", [verifyToken, getCategories]);
+// router.get("/total-spent-time/:id", [verifyToken, totalSpentTime]);
+router.get("/total-spent-time/:id", [verifyToken, getTotalSpentTime]);
 
 export { router };

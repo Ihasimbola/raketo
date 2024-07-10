@@ -23,11 +23,14 @@ export interface ITecno {
   count?: number;
 }
 
-interface Spent_TimeType {
-  day: number;
-  hour: number;
-  minute: number;
-  second: number;
+export interface Spent_TimeType {
+  name: string;
+  spent_time: {
+    day: number;
+    hour: number;
+    minute: number;
+    second: number;
+  };
 }
 
 export interface ITopic {

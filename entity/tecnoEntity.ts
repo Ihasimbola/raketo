@@ -6,6 +6,7 @@ const tecnoSchema = new mongoose.Schema<ITecno>(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

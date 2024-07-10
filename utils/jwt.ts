@@ -17,8 +17,8 @@ const generateAccessToken = (user: UserType) => {
       user,
       accessTokenSecret,
       {
-        expiresIn: 10,
-        // expiresIn: 60 * 6,
+        // expiresIn: 10,
+        expiresIn: "1h",
       },
       function (err, encoded) {
         if (err) reject("Error signing token " + err);
