@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import Tecno from "../entity/tecnoEntity";
+import Topics from "../entity/topicEntity";
+import calculateTotalSpentTime from "../utils/calculateTotalSpentTime";
+import formatDisplay from "../utils/formatDisplay";
 
 async function getAllTecnos(req: Request, res: Response) {
   try {
@@ -36,7 +39,7 @@ async function createTecno(req: Request, res: Response) {
       name: req.body.name,
       userId: req.body.userId,
       category: req.body.categoryId,
-      icon: `/upload/icon/${req.body.filePath}`,
+      icon: `${req.body.filePath}`,
     };
 
     const doc = await Tecno.create(tecno);
@@ -46,6 +49,54 @@ async function createTecno(req: Request, res: Response) {
     });
   } catch (error: any) {
     throw Error("Error creating Tecno " + error.message);
+  }
+}
+
+export async function getTotalSpentTime(req: Request, res: Response) {
+  try {
+    const allTecno = await Tecno.find({
+      userId: req.body.userId,
+      _id: req.params.id,
+    }).lean();
+
+    const topics = await Topics.find({
+      userId: req.body.userId,
+      tecno: req.params.id,
+    });
+
+    const spentTime = calculateTotalSpentTime(
+      topics.map((topic: any) => topic.spent_time)
+    );
+
+    const responseData = `${
+      spentTime.day === 0 ? "" : formatDisplay(spentTime.day) + ":"
+    }${formatDisplay(spentTime.hour)}:${formatDisplay(
+      spentTime.minute
+    )}:${formatDisplay(spentTime.second)}`;
+
+    return res.status(200).json({ data: responseData });
+  } catch (error: any) {
+    throw Error("Error getting all total spent time " + error.message);
+  }
+}
+
+export async function getTotalItems(req: Request, res: Response) {
+  try {
+    const allTecno = await Tecno.find({
+      userId: req.body.userId,
+      _id: req.params.id,
+    }).lean();
+
+    const topics = await Topics.find({
+      userId: req.body.userId,
+      tecno: req.params.id,
+    });
+
+    return res.status(200).json({
+      data: `singa ${topics.length}`,
+    });
+  } catch (error: Error | any) {
+    throw new Error(error.message);
   }
 }
 

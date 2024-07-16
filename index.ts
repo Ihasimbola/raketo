@@ -5,6 +5,7 @@ import { router as routes } from "./routes";
 import cors from "cors";
 import { verifyToken } from "./utils/jwt";
 import multer from "multer";
+import path from "path";
 
 const PORT = process.env.PORT || "4400";
 const DB_URL: string = process.env.DB_URL || "";
@@ -35,6 +36,7 @@ if (DB_URL) {
 }
 
 app.use("/api", routes);
+app.use("/icon", express.static(path.join(__dirname, "upload", "icon")));
 
 // app.post(
 //   "/test",
